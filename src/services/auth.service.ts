@@ -34,6 +34,7 @@ export class AuthService {
     const { email, password } = data;
 
     const user = await User.findOne({ where: { email } });
+    
     if (!user) {
       throw new Error("User not found.");
     }
@@ -43,7 +44,7 @@ export class AuthService {
       throw new Error("Invalid password.");
     }
 
-    const token = generateToken({ id: user.id, email: user.email });
+    const token: string = generateToken({ id: user.id, email: user.email });
 
     return { token };
   }

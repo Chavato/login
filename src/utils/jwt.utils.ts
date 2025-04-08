@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 
-export const generateToken = (payload: object) => {
+export const generateToken = (payload: object) : string => {
   const JWT_SECRET: string | undefined = process.env.JWT_SECRET;
 
   if (!JWT_SECRET) {
