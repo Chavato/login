@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 
-const JWT_SECRET = process.env.JWT_SECRET || "seusegredoseguro";
+const JWT_SECRET = process.env.JWT_SECRET;
 
 export const authenticateToken = (
   req: Request,
@@ -16,13 +16,20 @@ export const authenticateToken = (
     return;
   }
 
+  if (!JWT_SECRET) {
+    res
+      .status(500)
+      .json({ message: "JWT_SECRET environment variable is missing" });
+    return;
+  }
+
   jwt.verify(token, JWT_SECRET, (err, user) => {
     if (err) {
       res.status(403).json({ message: "Invalid or expired token" });
       return;
     }
 
-    (req as any).user = user; 
+    (req as any).user = user;
     next();
   });
 };
