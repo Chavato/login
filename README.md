@@ -17,6 +17,7 @@ This is a simple authentication API built with Node.js, Express, TypeScript, Seq
 - ✅ Clean architecture with separation of concerns
 - ✅ Unit tests for services, utils, and controllers
 - ✅ Coverage reports with Jest
+- ✅ Swagger API documentation 
 
 ## Tech Stack
 
@@ -60,4 +61,4 @@ This will:
 - Run all migrations automatically
 - Start the API server
 
-You can access the API at: http://localhost:3000
+You can access the API Swagger at: http://localhost:3000/api-docs
