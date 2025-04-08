@@ -38,8 +38,8 @@ This is a simple authentication API built with Node.js, Express, TypeScript, Seq
 
 #### 1. Clone the repository:
 
-    git clone https://github.com/your-username/your-repo-name.git
-    cd your-repo-name
+    git clone https://github.com/Chavato/login.git
+    cd login
 
 #### 2. Create a .env file in the project root:
 
