@@ -3,7 +3,8 @@ import { User } from "../../models/User";
 import bcrypt from "bcrypt";
 import * as jwtUtils from "../../utils/jwt.utils";
 import * as cpfUtils from "../../utils/cpf.utils";
-import { RegisterDTO } from "@/dtos/RegisterDTO";
+import { RegisterDTO } from "../../dtos/RegisterDTO";
+import { HttpError } from "../../errors/HttpError";
 
 jest.mock("../../models/User");
 jest.mock("bcrypt");
@@ -46,7 +47,7 @@ describe("AuthService", () => {
       });
     });
 
-    it("should throw if email is already registered", async () => {
+    it("should throw HttpError if email is already registered", async () => {
       (User.findOne as jest.Mock).mockResolvedValue({ id: 1 });
 
       await expect(
@@ -56,10 +57,22 @@ describe("AuthService", () => {
           password: "pass",
           cpf: "12345678901",
         })
-      ).rejects.toThrow("Email already registered.");
+      ).rejects.toThrow(HttpError);
+
+      await expect(
+        AuthService.register({
+          name: "Test",
+          email: "test@example.com",
+          password: "pass",
+          cpf: "12345678901",
+        })
+      ).rejects.toMatchObject({
+        message: "Email already registered.",
+        statusCode: 400,
+      });
     });
 
-    it("should throw if CPF format is invalid", async () => {
+    it("should throw HttpError if CPF format is invalid", async () => {
       (User.findOne as jest.Mock).mockResolvedValue(null);
       (cpfUtils.isValidCPFFormat as jest.Mock).mockReturnValue(false);
 
@@ -70,7 +83,19 @@ describe("AuthService", () => {
           password: "pass",
           cpf: "invalid-cpf",
         })
-      ).rejects.toThrow("CPF is invalid.");
+      ).rejects.toThrow(HttpError);
+
+      await expect(
+        AuthService.register({
+          name: "Test",
+          email: "test@example.com",
+          password: "pass",
+          cpf: "invalid-cpf",
+        })
+      ).rejects.toMatchObject({
+        message: "CPF is invalid.",
+        statusCode: 400,
+      });
     });
   });
 
@@ -93,12 +118,16 @@ describe("AuthService", () => {
       expect(result).toEqual({ token: "fake_token" });
     });
 
-    it("should throw if user not found", async () => {
+    it("should throw HttpError if user not found", async () => {
       (User.findOne as jest.Mock).mockResolvedValue(null);
 
       await expect(
         AuthService.login({ email: "x@x.com", password: "123" })
-      ).rejects.toThrow("User not found.");
+      ).rejects.toThrow(HttpError);
+
+      await expect(
+        AuthService.login({ email: "x@x.com", password: "123" })
+      ).rejects.toMatchObject({ message: "User not found.", statusCode: 404 });
     });
 
     it("should throw if password is invalid", async () => {
@@ -110,7 +139,14 @@ describe("AuthService", () => {
 
       await expect(
         AuthService.login({ email: "x@x.com", password: "wrong" })
-      ).rejects.toThrow("Invalid password.");
+      ).rejects.toThrow(HttpError);
+
+      await expect(
+        AuthService.login({ email: "x@x.com", password: "123" })
+      ).rejects.toMatchObject({
+        message: "Invalid password.",
+        statusCode: 400,
+      });
     });
   });
 });
