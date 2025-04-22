@@ -8,7 +8,6 @@ services:
       - .:/app
       - /app/node_modules
     environment:
-      - DATABASE_URL=postgresql://admin:admin123@db:5432/db
       - NODE_ENV=development
     command: npm run dev
 
