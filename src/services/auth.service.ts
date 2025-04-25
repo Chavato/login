@@ -1,12 +1,12 @@
-import bcrypt from "bcrypt";
-import { generateToken } from "../utils/jwt.utils";
-import { isValidCPFFormat } from "../utils/cpf.utils";
-import { User } from "../models/User";
-import { RegisterDTO } from "../dtos/RegisterDTO";
-import { LoginDTO } from "../dtos/LoginDTO";
-import { RegisterResponseDTO } from "../dtos/RegisterResponseDTO";
-import { LoginResponseDTO } from "../dtos/LoginResponseDTO";
-import { HttpError } from "../errors/HttpError";
+import bcrypt from 'bcrypt';
+import { generateToken } from '../utils/jwt.utils';
+import { isValidCPFFormat } from '../utils/cpf.utils';
+import { User } from '../models/User';
+import { RegisterDTO } from '../dtos/RegisterDTO';
+import { LoginDTO } from '../dtos/LoginDTO';
+import { RegisterResponseDTO } from '../dtos/RegisterResponseDTO';
+import { LoginResponseDTO } from '../dtos/LoginResponseDTO';
+import { HttpError } from '../errors/HttpError';
 
 export class AuthService {
   static async register(data: RegisterDTO): Promise<RegisterResponseDTO> {
@@ -14,11 +14,11 @@ export class AuthService {
 
     const existing = await User.findOne({ where: { email } });
     if (existing) {
-      throw new HttpError("Email already registered.", 400);
+      throw new HttpError('Email already registered.', 400);
     }
 
     if (!isValidCPFFormat(cpf)) {
-      throw new HttpError("CPF is invalid.", 400);
+      throw new HttpError('CPF is invalid.', 400);
     }
 
     const hash = await bcrypt.hash(password, 10);
@@ -37,12 +37,12 @@ export class AuthService {
     const user = await User.findOne({ where: { email } });
 
     if (!user) {
-      throw new HttpError("User not found.", 404);
+      throw new HttpError('User or password are invalid.', 400);
     }
 
     const valid = await bcrypt.compare(password, user.password);
     if (!valid) {
-      throw new HttpError("Invalid password.", 400);
+      throw new HttpError('User or password are invalid.', 400);
     }
 
     const token: string = generateToken({ id: user.id, email: user.email });
