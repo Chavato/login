@@ -20,7 +20,7 @@ export class UserService {
   static async getUserById(id: number): Promise<UserResponseDTO> {
     const user = await User.findOne({ where: { id } });
 
-    if (!user) throw new HttpError('user not found.', 404);
+    if (!user) throw new HttpError('User not found.', 404);
 
     const userDto: UserResponseDTO = {
       id: user.id,
