@@ -6,7 +6,7 @@
     "dev": "ts-node-dev --inspect=0.0.0.0:9229 --respawn src/server.ts",
     "build": "tsc",
     "start": "node dist/server.js",
-    "test": "jest",
+    "test": "jest --runInBand",
     "migrate": "npx sequelize-cli db:migrate"
   },
   "keywords": [],

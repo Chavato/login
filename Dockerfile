@@ -12,5 +12,4 @@ RUN npm run build
 
 EXPOSE ${PORT} 9229
 
-# CMD ["node", "dist/server.js"]
-CMD sh -c "npx sequelize-cli db:migrate && node dist/server.js"
+CMD sh -c "npm test && npx sequelize-cli db:migrate && node dist/server.js"
