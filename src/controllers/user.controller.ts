@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
 import { UserService } from '../services/user.service';
-import { UserResponseDTO } from '@/dtos/UserResponseDTO';
 
 export class UserController {
   static async getUsers(

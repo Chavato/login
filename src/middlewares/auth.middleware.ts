@@ -2,7 +2,6 @@ import { EnvironmentVariableMissing } from '../errors/EnvironmentVariableMissing
 import { HttpError } from '../errors/HttpError';
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
-import { Error } from 'sequelize';
 
 const JWT_SECRET = process.env.JWT_SECRET;
 

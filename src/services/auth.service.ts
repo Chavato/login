@@ -7,6 +7,7 @@ import { LoginDTO } from '../dtos/LoginDTO';
 import { RegisterResponseDTO } from '../dtos/RegisterResponseDTO';
 import { LoginResponseDTO } from '../dtos/LoginResponseDTO';
 import { HttpError } from '../errors/HttpError';
+import { Role } from '../enums/Role';
 
 export class AuthService {
   static async register(data: RegisterDTO): Promise<RegisterResponseDTO> {
@@ -22,7 +23,13 @@ export class AuthService {
     }
 
     const hash = await bcrypt.hash(password, 10);
-    const newUser = await User.create({ name, email, password: hash, cpf });
+    const newUser = await User.create({
+      name,
+      email,
+      password: hash,
+      cpf,
+      role: Role.User,
+    });
 
     return {
       id: newUser.id,

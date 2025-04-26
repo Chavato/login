@@ -6,7 +6,7 @@ import { HttpError } from '../errors/HttpError';
 export class UserService {
   static async getAllUsers(): Promise<UserResponseDTO[]> {
     const users = await User.findAll({
-      attributes: ['id', 'name', 'email', 'cpf'],
+      attributes: ['id', 'name', 'email', 'cpf', 'role'],
     });
 
     return users.map((user) => ({
@@ -14,6 +14,7 @@ export class UserService {
       name: user.name,
       email: user.email,
       cpf: anonymizeCPF(user.cpf),
+      role: user.role,
     }));
   }
 
@@ -27,6 +28,7 @@ export class UserService {
       name: user.name,
       email: user.email,
       cpf: anonymizeCPF(user.cpf),
+      role: user.role,
     };
 
     return userDto;

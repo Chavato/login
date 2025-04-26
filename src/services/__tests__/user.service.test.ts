@@ -2,6 +2,7 @@ import { UserService } from '../../services/user.service';
 import { User } from '../../models/User';
 import { anonymizeCPF } from '../../utils/cpf.utils';
 import { HttpError } from '../../errors/HttpError';
+import { Role } from '../../enums/Role';
 
 jest.mock('../../models/User');
 jest.mock('../../utils/cpf.utils');
@@ -19,12 +20,14 @@ describe('UserService', () => {
           name: 'Rafael Chaves',
           email: 'rafael@example.com',
           cpf: '12345678900',
+          role: Role.Admin,
         },
         {
           id: 2,
           name: 'Lucas Silva',
           email: 'lucas@example.com',
           cpf: '98765432100',
+          role: Role.User,
         },
       ];
 
@@ -36,7 +39,7 @@ describe('UserService', () => {
       const result = await UserService.getAllUsers();
 
       expect(User.findAll).toHaveBeenCalledWith({
-        attributes: ['id', 'name', 'email', 'cpf'],
+        attributes: ['id', 'name', 'email', 'cpf', 'role'],
       });
 
       expect(anonymizeCPF).toHaveBeenCalledTimes(mockUsers.length);
@@ -47,12 +50,14 @@ describe('UserService', () => {
           name: 'Rafael Chaves',
           email: 'rafael@example.com',
           cpf: '***45678900',
+          role: Role.Admin,
         },
         {
           id: 2,
           name: 'Lucas Silva',
           email: 'lucas@example.com',
           cpf: '***65432100',
+          role: Role.User,
         },
       ]);
     });
@@ -65,6 +70,7 @@ describe('UserService', () => {
         name: 'Rafael Chaves',
         email: 'rafael@example.com',
         cpf: '12345678900',
+        role: Role.Admin,
       };
 
       const id = 1;
@@ -84,6 +90,7 @@ describe('UserService', () => {
         name: 'Rafael Chaves',
         email: 'rafael@example.com',
         cpf: '***45678900',
+        role: Role.Admin,
       });
     });
 

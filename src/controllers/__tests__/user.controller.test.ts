@@ -1,8 +1,9 @@
-import { UserResponseDTO } from '@/dtos/UserResponseDTO';
+import { UserResponseDTO } from '../../dtos/UserResponseDTO';
 import { UserController } from '../../controllers/user.controller';
 import { UserService } from '../../services/user.service';
 import { NextFunction, Request, Response } from 'express';
 import { HttpError } from '../../errors/HttpError';
+import { Role } from '../../enums/Role';
 
 jest.mock('../../services/user.service');
 
@@ -32,12 +33,14 @@ describe('UserController', () => {
           name: 'Rafael',
           email: 'rafael@example.com',
           cpf: '***45678900',
+          role: Role.Admin,
         },
         {
           id: 2,
           name: 'Lucas',
           email: 'lucas@example.com',
           cpf: '***12345678',
+          role: Role.User,
         },
       ];
       (UserService.getAllUsers as jest.Mock).mockResolvedValue(mockUsers);
@@ -68,6 +71,7 @@ describe('UserController', () => {
         name: 'Rafael',
         email: 'rafael@example.com',
         cpf: '***45678900',
+        role: Role.Admin,
       };
 
       req = { params: { id: userId } };

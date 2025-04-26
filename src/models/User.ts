@@ -1,5 +1,6 @@
-import { DataTypes, Model, Optional } from "sequelize";
-import { sequelize } from "../config/database";
+import { DataTypes, Model, Optional } from 'sequelize';
+import { sequelize } from '../config/database';
+import { Role } from '../enums/Role';
 
 interface UserAttributes {
   id: number;
@@ -7,9 +8,10 @@ interface UserAttributes {
   email: string;
   password: string;
   cpf: string;
+  role: Role;
 }
 
-interface UserCreationAttributes extends Optional<UserAttributes, "id"> {}
+interface UserCreationAttributes extends Optional<UserAttributes, 'id'> {}
 
 export class User
   extends Model<UserAttributes, UserCreationAttributes>
@@ -20,6 +22,7 @@ export class User
   public email!: string;
   public password!: string;
   public cpf!: string;
+  public role!: Role;
 }
 
 User.init(
@@ -44,9 +47,13 @@ User.init(
       allowNull: false,
       unique: true,
     },
+    role: {
+      type: DataTypes.ENUM(...Object.values(Role)),
+      allowNull: false,
+    },
   },
   {
     sequelize,
-    tableName: "users",
+    tableName: 'users',
   }
 );
