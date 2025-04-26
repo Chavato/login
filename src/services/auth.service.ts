@@ -52,7 +52,11 @@ export class AuthService {
       throw new HttpError('User or password are invalid.', 400);
     }
 
-    const token: string = generateToken({ id: user.id, email: user.email });
+    const token: string = generateToken({
+      id: user.id,
+      email: user.email,
+      role: user.role,
+    });
 
     return { token };
   }

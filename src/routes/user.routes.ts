@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { UserController } from '../controllers/user.controller';
 import { authenticateToken } from '../middlewares/auth.middleware';
+import { Role } from '../enums/Role';
 
 const router = Router();
 
@@ -51,7 +52,7 @@ const router = Router();
  *                   type: string
  *                   example: Error
  */
-router.get('/users', authenticateToken, UserController.getUsers);
+router.get('/users', authenticateToken(Role.Admin), UserController.getUsers);
 
 /**
  * @openapi
@@ -117,6 +118,10 @@ router.get('/users', authenticateToken, UserController.getUsers);
  *                   type: string
  *                   example: Error
  */
-router.get('/users/:id', authenticateToken, UserController.getUserById);
+router.get(
+  '/users/:id',
+  authenticateToken(Role.Admin),
+  UserController.getUserById
+);
 
 export default router;
