@@ -17,7 +17,7 @@ This is a simple authentication API built with Node.js, Express, TypeScript, Seq
 - ✅ Clean architecture with separation of concerns
 - ✅ Unit tests for services, utils, and controllers
 - ✅ Coverage reports with Jest
-- ✅ Swagger API documentation 
+- ✅ Swagger API documentation
 
 ## Tech Stack
 
@@ -62,3 +62,15 @@ This will:
 - Start the API server
 
 You can access the API Swagger at: http://localhost:3000/api-docs
+
+### Default Admin User
+
+After the project starts, a default admin user is automatically created by the seeders:
+
+- **Email:** admin@admin
+- **Password:** admin123
+
+### Access Restrictions
+
+- The routes under `/users` are **protected** and can **only be accessed by admin users**.
+- Use the default admin credentials to authenticate and access these restricted endpoints.
