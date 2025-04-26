@@ -12,7 +12,7 @@ RUN npm run build
 
 EXPOSE ${PORT} 9229
 
-CMD sh -c "npm test && npx sequelize-cli db:migrate && npm run dev"
+CMD sh -c "npm test && npm run migrate-seed && npm run dev"
 
 #ToProd
-# CMD sh -c "npm test && npx sequelize-cli db:migrate && node dist/server.js"
+# CMD sh -c "npm test && npm run migrate-seed && node dist/server.js"
